@@ -134,3 +134,6 @@ class ComboActivity:
             damage = self.spell_attack_dictionary["fireball"]*10
         
         return damage
+
+combo1 = ["meditate", "meditate", "meditate", "meditate", "ice lance"]
+print(ComboActivity.spell_damage(combo1))
