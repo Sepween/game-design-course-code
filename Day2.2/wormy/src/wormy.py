@@ -809,29 +809,37 @@ def DrunGame(wormcolor1, wormcolor2):
         for i in range(len(appleList)):
             if wormCoordsP1[HEAD]['x'] == appleList[i].x and wormCoordsP1[HEAD]['y'] == appleList[i].y:
                 P1ateApple = True
-                if appleList[i].ability == 'faster' and wormP1.speed < 8:
+                if appleList[i].ability == 'faster' and wormP1.speed < 7:
                     P1Faster = True
-                elif appleList[i].ability == 'slower' and wormP1.speed > 0:
+                elif appleList[i].ability == 'slower' and wormP1.speed > 2:
                     P1Slower = True
+                else:
+                    fpsD += 0
                 appleList[i] = DgetRandomLocation()
 
         # Detect P2 "Collisions" With Apple
         for i in range(len(appleList)):
             if wormCoordsP2[HEAD]['x'] == appleList[i].x and wormCoordsP2[HEAD]['y'] == appleList[i].y:
                 P2ateApple = True
-                if appleList[i].ability == 'faster' and wormP2.speed < 8:
+                if appleList[i].ability == 'faster' and wormP2.speed < 7:
                     P2Faster = True
-                elif appleList[i].ability == 'slower' and wormP2.speed > 0:
+                elif appleList[i].ability == 'slower' and wormP2.speed > 2:
                     P2Slower = True
+                else:
+                    fpsD += 0
                 appleList[i] = DgetRandomLocation()
 
         if P1ateApple == True:
             pygame.mixer.Sound.play(eatSound[random.randint(0,1)])
             if P1Faster == True:
+                fpsD += 3
                 wormP1.speed += 1
+                wormP2.speed += 1
                 P1Faster = False
             if P1Slower == True:
+                fpsD -= 3
                 wormP1.speed -= 1
+                wormP2.speed -= 1
                 P1Slower = False
             P1ateApple = False
         else:
@@ -842,9 +850,13 @@ def DrunGame(wormcolor1, wormcolor2):
         else:
             pygame.mixer.Sound.play(eatSound[random.randint(0,1)])
             if P2Faster == True:
+                fpsD += 3
+                wormP1.speed += 1
                 wormP2.speed += 1
                 P2Faster = False
             if P2Slower == True:
+                fpsD -= 3
+                wormP1.speed -= 1
                 wormP2.speed -= 1
                 P2Slower = False
             P2ateApple = False
@@ -869,9 +881,7 @@ def DrunGame(wormcolor1, wormcolor2):
             newHeadP2 = {'x': wormCoordsP2[HEAD]['x']+1, 'y': wormCoordsP2[HEAD]['y']}
 
         wormCoordsP1.insert(0, newHeadP1)
-        wormP1.score = len(wormCoordsP1) - 3
         wormCoordsP2.insert(0, newHeadP2)
-        wormP2.score = len(wormCoordsP2) - 3
 
         # Paint On The Screen
         DISPLAYSURF.fill(BGCOLOR)
